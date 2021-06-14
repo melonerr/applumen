@@ -1,50 +1,35 @@
 <?php
 
 
-$router->get('users/db', function () {
-    // Query ข้อมูลจาก Database
-    $results = app('db')->select("SELECT * FROM users");
-    // return ข้อมูลที่ Query จาก database ในรูปแบบ Json
-    return response()->json($results);
-});
-
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/key', function () {
-    $pool = 'lorem10';
-    return  $pool;
-});
-
-$router->get('/users', function () {
-    // arry
-    $array  = ["a", "b", "c"];
-    // array obj
-    $arrayobj = ["a" => 1, "b" => 2, "c" => 3];
-    // response json
-    $data = [
-        ["id" => 1, "name" => "aa", "age" => 24, "position" => "studentA"],
-        ["id" => 2, "name" => "bb", "age" => 25, "position" => "studentB"],
-        ["id" => 3, "name" => "cc", "age" => 26, "position" => "studentC"],
-    ];
-    return response()->json([
-        // json formay
-        'status' => 'error',
-        'StatusCode' => '404',
-        // array format
-        'array' => $array,
-        // array OBJ format
-        'arrayOBJ' => $arrayobj,
-        'data' => $data
-    ]);
-});
+$router->get('/key', 'TestController@GetSimpleData');
+$router->get('/test', 'TestController@GetArrayAndJsonData');
+$router->get('/test/{id}', 'TestController@GetDataID');
+$router->get('/test/{id}/{name}', 'TestController@GetDataIDAndName');
 
 
-$router->get('/users/{id}', function ($id) {
-    return  "user ID:" . $id;
-});
 
-$router->get('/users/{id}/{name}', function ($id, $name) {
-    return  "ID: " . $id . "<br> Name: " . $name;
+// เรียกผ่าน Controller
+$router->get('/users', 'UsersController@Users');
+$router->get('/users/{id}', 'UsersController@UsersID');
+
+// insert data
+$router->post('/users/create', 'UsersController@InsertUser');
+
+// insert data 
+$router->put('/users/update/{id}', 'UsersController@UpdateUsers');
+
+// delete data
+$router->delete('/users/delete/{id}', 'UsersController@DeleteUser');
+
+
+// เรียกผ่า route
+$router->get('users-all', function () {
+    // Query ข้อมูลจาก Database
+    $results = app('db')->select("SELECT * FROM users");
+    // return ข้อมูลที่ Query จาก database ในรูปแบบ Json
+    return response()->json($results);
 });
