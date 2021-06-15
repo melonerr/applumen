@@ -2,7 +2,7 @@
 
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return view('docs');
 });
 
 $router->get('/key', 'TestController@GetSimpleData');
@@ -15,17 +15,20 @@ $router->get('/test/{id}/{name}', 'TestController@GetDataIDAndName');
 // เรียกผ่าน Controller
 $router->get('/users', 'UsersController@Users');
 $router->get('/users/{id}', 'UsersController@UsersID');
+$router->get('/create/users', 'UsersController@PostUpload');
+$router->get('/update/users', 'UsersController@PutUpdate');
+$router->get('/delete/users/{id}', 'UsersController@MethodDelete');
 
 // insert data
 // Query Params {name, email, github, twitter, location, status }
-$router->post('/users/create', 'UsersController@InsertUser');
+$router->post('/create/users', 'UsersController@InsertUser');
 
 // insert data     
 // Query Params {id, name, email, github, twitter, location, status }
-$router->put('/users/update', 'UsersController@UpdateUsers');
+$router->put('/update/users', 'UsersController@UpdateUsers');
 
 // delete data
-$router->delete('/users/delete/{id}', 'UsersController@DeleteUser');
+$router->delete('/delete/users/{id}', 'UsersController@DeleteUser');
 
 
 // เรียกผ่า route

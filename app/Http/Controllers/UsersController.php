@@ -83,7 +83,21 @@ class UsersController extends Controller
         // return response()->json($results);
 
     }
+    public function PostUpload()
+    {
+            return "<center style='padding-top:10%'>ไป POST ข้อมูลมา</center>";
 
+    }
+    public function PutUpdate()
+    {
+            return "<center style='padding-top:10%'>ไป PUT ข้อมูลมา</center>";
+
+    }
+    public function MethodDelete()
+    {
+            return "<center style='padding-top:10%'>ไป DELETE ข้อมูลมา</center>";
+
+    }
     public function InsertUser(Request $request)
     {
         //method POST
