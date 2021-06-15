@@ -17,10 +17,12 @@ $router->get('/users', 'UsersController@Users');
 $router->get('/users/{id}', 'UsersController@UsersID');
 
 // insert data
+// Query Params {name, email, github, twitter, location, status }
 $router->post('/users/create', 'UsersController@InsertUser');
 
-// insert data 
-$router->put('/users/update/{id}', 'UsersController@UpdateUsers');
+// insert data     
+// Query Params {id, name, email, github, twitter, location, status }
+$router->put('/users/update', 'UsersController@UpdateUsers');
 
 // delete data
 $router->delete('/users/delete/{id}', 'UsersController@DeleteUser');
