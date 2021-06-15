@@ -10,6 +10,7 @@ class UsersController extends Controller
 {
     public function Users()
     {
+        //method GET
         // ใช้ Model
         $Users = Users::all();
         return response()->json($Users);
@@ -27,6 +28,7 @@ class UsersController extends Controller
 
     public function UsersID($id)
     {
+        //method GET
         // ใช้ Model
         // $Users = Users::where('id', $id)->get();
         $Users = Users::all()->where('id', $id);
@@ -42,7 +44,7 @@ class UsersController extends Controller
 
     public function InsertUser(Request $request)
     {
-
+        //method POST
         //ตรวจสอบข้อมุล
 
         $users = new Users();
@@ -56,17 +58,46 @@ class UsersController extends Controller
         return response()->json($users);
     }
 
-    public function UpdateUsers($id)
+    public function UpdateUsers(Request $request)
     {
-        $res = DB::table('users')
-            ->where('id', $id)
-            ->update(['name' => 2]);
-        return response()->json($res);
+        //method PUT
+        // insert to DB
+        $request = DB::table('users')
+            ->where('id', $request->id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'github' => $request->github,
+                'twitter' => $request->twitter,
+                'location' => $request->location,
+                'latest_article_published' => $request->latest_article_published,
+                'updated_at' => date("Y-m-d H:i:s")  
+            ]);
+
+        if ($request === 1) {
+            return response()->json([
+                'status' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Error',
+            ]);
+        }
     }
 
     public function DeleteUser($id)
     {
+        //method DELETE
         $res =  DB::table('users')->where('id', $id)->delete();
-        return response()->json($res);
+        
+        if ($res === 1) {
+            return response()->json([
+                'status' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Error',
+            ]);
+        }
     }
 }
