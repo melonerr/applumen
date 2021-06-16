@@ -30,7 +30,7 @@ class UsersController extends Controller
     {
         //method GET
         // ใช้ Model
-        $Users = Users::where('id', $id)->get();
+        $Users = Users::where('id', addslashes($id))->get();
         // $Users = Users::all()->where('id', $id);
         if (count($Users) === 1) {
             $data = [
@@ -85,31 +85,57 @@ class UsersController extends Controller
     }
     public function PostUpload()
     {
-            return "<center style='padding-top:10%'>ไป POST ข้อมูลมา</center>";
-
+        return "<center style='padding-top:10%'>ไป POST ข้อมูลมา</center>";
     }
     public function PutUpdate()
     {
-            return "<center style='padding-top:10%'>ไป PUT ข้อมูลมา</center>";
-
+        return "<center style='padding-top:10%'>ไป PUT ข้อมูลมา</center>";
     }
     public function MethodDelete()
     {
-            return "<center style='padding-top:10%'>ไป DELETE ข้อมูลมา</center>";
-
+        return "<center style='padding-top:10%'>ไป DELETE ข้อมูลมา</center>";
     }
     public function InsertUser(Request $request)
     {
         //method POST
         //ตรวจสอบข้อมุล
-
+        $this->validate(
+            $request,
+            [
+                'name' => 'required',
+                'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+                'github' => 'required|url',
+                'twitter' => 'required|url',
+                'location' => 'required',
+                'status' => 'required|boolean',
+            ],
+            [
+                //ตรวจสอบข้อมุล name
+                'name.required' => 'กรุณากรอกข้อมุล name',
+                //ตรวจสอบข้อมุล email
+                'email.required' => 'กรุณากรอกข้อมุล email',
+                'email.regex' => 'กรุณากรอกข้อมุล Email ให้ถูกต้อง',
+                //ตรวจสอบข้อมุล github
+                'github.required' => 'กรุณากรอกข้อมุล github',
+                'github.url' => 'กรุณากรอกข้อมุล github เป็น url (มี http:// หรือ https://)',
+                //ตรวจสอบข้อมุล twitter
+                'twitter.required' => 'กรุณากรอกข้อมุล twitter',
+                'twitter.url' => 'กรุณากรอกข้อมุล twitter เป็น url (มี http:// หรือ https://)',
+                //ตรวจสอบข้อมุล location
+                'location.required' => 'กรุณากรอกข้อมุล location',
+                //ตรวจสอบข้อมุล status
+                'status.required' => 'กรุณากรอกข้อมุล status',
+                'status.boolean' => 'กรุณากรอกข้อมุล status 0 หรือ 1 เท่านั้น',
+            ]
+        );
+        // insert data
         $users = new Users();
-        $users->name = $request->name;
-        $users->email = $request->email;
-        $users->github = $request->github;
-        $users->twitter = $request->twitter;
-        $users->location = $request->location;
-        $users->latest_article_published = $request->status;
+        $users->name = addslashes($request->name);
+        $users->email = addslashes($request->email);
+        $users->github = addslashes($request->github);
+        $users->twitter = addslashes($request->twitter);
+        $users->location = addslashes($request->location);
+        $users->latest_article_published = addslashes($request->status);
         $users->save();
         if (!empty($users['id'])) {
             $data = [
@@ -133,17 +159,50 @@ class UsersController extends Controller
     public function UpdateUsers(Request $request)
     {
         //method PUT
+        //ตรวจสอบข้อมุล
+        $this->validate(
+            $request,
+            [
+                'id' => 'required|numeric',
+                'name' => 'required',
+                'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+                'github' => 'required|url',
+                'twitter' => 'required|url',
+                'location' => 'required',
+                'status' => 'required|boolean',
+            ],
+            [
+                //ตรวจสอบข้อมุล id
+                'id.required' => 'กรุณากรอกข้อมุล id',
+                'id.numeric' => 'กรุณากรอกข้อมุล id ให้ถูกต้อง',
+                //ตรวจสอบข้อมุล name
+                'name.required' => 'กรุณากรอกข้อมุล name',
+                //ตรวจสอบข้อมุล email
+                'email.required' => 'กรุณากรอกข้อมุล email',
+                'email.regex' => 'กรุณากรอกข้อมุล Email ให้ถูกต้อง',
+                //ตรวจสอบข้อมุล github
+                'github.required' => 'กรุณากรอกข้อมุล github',
+                'github.url' => 'กรุณากรอกข้อมุล github เป็น url (มี http:// หรือ https://)',
+                //ตรวจสอบข้อมุล twitter
+                'twitter.required' => 'กรุณากรอกข้อมุล twitter',
+                'twitter.url' => 'กรุณากรอกข้อมุล twitter เป็น url (มี http:// หรือ https://)',
+                //ตรวจสอบข้อมุล location
+                'location.required' => 'กรุณากรอกข้อมุล location',
+                //ตรวจสอบข้อมุล status
+                'status.required' => 'กรุณากรอกข้อมุล status',
+                'status.boolean' => 'กรุณากรอกข้อมุล status 0 หรือ 1 เท่านั้น',
+            ]
+        );
         // insert to DB
-        // return $request;
         $request = DB::table('users')
-            ->where('id', $request->id)
+            ->where('id', addslashes($request->id))
             ->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'github' => $request->github,
-                'twitter' => $request->twitter,
-                'location' => $request->location,
-                'latest_article_published' => $request->status,
+                'name' => addslashes($request->name),
+                'email' => addslashes($request->email),
+                'github' => addslashes($request->github),
+                'twitter' => addslashes($request->twitter),
+                'location' => addslashes($request->location),
+                'latest_article_published' => addslashes($request->status),
                 'updated_at' => date("Y-m-d H:i:s")
             ]);
 
@@ -166,10 +225,23 @@ class UsersController extends Controller
         }
     }
 
-    public function DeleteUser($id)
+    public function DeleteUser(Request $request)
     {
+        //ตรวจสอบข้อมุล
+        $this->validate(
+            $request,
+            [
+                'id' => 'required|numeric',
+            ],
+            [
+                //ตรวจสอบข้อมุล id
+                'id.required' => 'กรุณากรอกข้อมุล id',
+                'id.numeric' => 'กรุณากรอกข้อมุล id ให้ถูกต้อง',
+            ]
+        );
+
         //method DELETE
-        $res =  DB::table('users')->where('id', $id)->delete();
+        $res =  DB::table('users')->where('id', addslashes($request->id))->delete();
 
         if ($res === 1) {
             $data = [

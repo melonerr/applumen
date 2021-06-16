@@ -13,13 +13,10 @@
 
     </style>
 </head>
-<?php $url = 'http://localhost:8000/'; ?>
-
+<?php $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>
 <body style="margin: 3%">
     <center>
         <h2>API Document</h2>
-        <h1 style="color: red">ยังไม่ Validate ข้อมูล</h1>
-
     </center>
     <h3>Test</h3>
     <ul>
@@ -55,7 +52,7 @@
             <p>
                 Get Users by id
                 <br>Get =>
-                <a href="<?php echo $url; ?>users/_id_" target="_blank">
+                <a href="<?php echo $url; ?>users/1" target="_blank">
                     <?php echo $url; ?>users/_id_
                 </a>
             </p>
@@ -87,8 +84,8 @@
             <p>
                 Delete Users by id
                 <br>Delete =>
-                <a href="<?php echo $url; ?>delete/users/_id_" target="_blank">
-                    <?php echo $url; ?>delete/users/_id_
+                <a href="<?php echo $url; ?>delete/users" target="_blank">
+                    <?php echo $url; ?>delete/users
                 </a>
             </p>
         </li>

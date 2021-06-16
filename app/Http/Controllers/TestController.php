@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Validator;
+
 class TestController extends Controller
 {
     public function GetSimpleData()
@@ -35,7 +38,7 @@ class TestController extends Controller
     }
     public function GetDataID($id)
     {
-        return  "user ID:" . $id;
+        return response()->json($id);
     }
 
     public function GetDataIDAndName($id, $name)
