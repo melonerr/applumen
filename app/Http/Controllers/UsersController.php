@@ -52,6 +52,7 @@ class UsersController extends Controller
                     "version" => "1.0.1"
                 ]
             ];
+            
             return response()->json($data);
         } else {
             $data = [

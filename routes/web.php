@@ -1,9 +1,36 @@
 <?php
 
+// Authorization
 
-$router->get('/', function () use ($router) {
+$router->group(['prefix' => 'auth', 'middleware' => ['auth']], function () use ($router) {
+    $router->get('/users', 'UsersController@Users');
+    $router->get('/users/{id}', 'UsersController@UsersID');
+    $router->get('/create/users', 'UsersController@PostUpload');
+    $router->get('/update/users', 'UsersController@PutUpdate');
+    $router->get('/delete/users', 'UsersController@MethodDelete');
+
+    // insert data
+    // Query Params {name, email, github, twitter, location, status }
+    $router->post('/create/users', 'UsersController@InsertUser');
+
+    // insert data     
+    // Query Params {id, name, email, github, twitter, location, status }
+    $router->put('/update/users', 'UsersController@UpdateUsers');
+
+    // delete data
+    // Query Params {id}
+    $router->delete('/delete/users', 'UsersController@DeleteUser');
+});
+// endAuthorization
+
+
+
+$router->get('/authen', 'AuthenController@All');
+
+$router->get('/', function (){
     return view('docs');
 });
+
 
 $router->get('/key', 'TestController@GetSimpleData');
 $router->get('/test', 'TestController@GetArrayAndJsonData');

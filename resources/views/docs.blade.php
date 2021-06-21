@@ -6,14 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>API Document</title>
-    <style>
-        .pb-15 {
-            padding-bottom: 10px
-        }
-
-    </style>
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <?php $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>
+
 <body style="margin: 3%">
     <center>
         <h2>API Document</h2>
@@ -90,6 +86,7 @@
             </p>
         </li>
     </ul>
+    <script src="js/index.js"></script>
 </body>
 
 </html>
